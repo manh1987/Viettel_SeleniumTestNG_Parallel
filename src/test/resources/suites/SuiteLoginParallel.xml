@@ -1,0 +1,40 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite" verbose="1" parallel="tests">
+    <!-- Chạy song song các @Test trong từng class chỉ định -->
+    <test name="Login Test CRM CHROME" parallel="methods">
+        <parameter name="browser" value="chrome"></parameter>
+
+        <classes>
+            <class name="com.anhtester.common.Bai26_ParallelExecutionPom.testcase.LoginTest">
+                <methods>
+                    <include name="testLoginCRM_Success"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Login Test CRM FIREFOX" parallel="methods">
+        <parameter name="browser" value="firefox"></parameter>
+
+        <classes>
+            <class name="com.anhtester.common.Bai26_ParallelExecutionPom.testcase.LoginTest">
+                <methods>
+                    <include name="testLoginCRM_EmailInvalid"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Login Test CRM EDGE" parallel="methods">
+        <parameter name="browser" value="edge"></parameter>
+
+        <classes>
+            <class name="com.anhtester.common.Bai26_ParallelExecutionPom.testcase.LoginTest">
+                <methods>
+                    <include name="testLoginCRM_PasswordInvalid"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
