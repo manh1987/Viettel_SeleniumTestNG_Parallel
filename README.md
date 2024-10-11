@@ -1,0 +1,1 @@
+# Viettel_SeleniumTestNG_Parallel
