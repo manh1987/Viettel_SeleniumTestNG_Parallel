@@ -1,6 +1,6 @@
 package com.anhtester.drivers;
-import org.openqa.selenium.WebDriver;
 
+import org.openqa.selenium.WebDriver;
 public class DriverManager {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
