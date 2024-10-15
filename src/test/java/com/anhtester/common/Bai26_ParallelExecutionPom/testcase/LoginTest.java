@@ -3,6 +3,7 @@ package com.anhtester.common.Bai26_ParallelExecutionPom.testcase;
 
 import com.anhtester.common.Bai26_ParallelExecutionPom.pages.LoginPage;
 import com.anhtester.common.BaseTest;
+import com.anhtester.helpers.ExcelHelper;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
@@ -14,7 +15,13 @@ public class LoginTest extends BaseTest {
         //Khởi tạo đối tượng class LoginPage để truyê giá trị driver từ BaseTest
         //Để class LoginPage nhận được giá trị driver thì mới thực thi các hàm trong class page được
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin@example.com", "123456");
+
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/testdata/LoginData.xlsx","sheet1");
+        loginPage.loginCRM(
+                excelHelper.getCellData("username",1),
+                excelHelper.getCellData("password",1)
+        );
 
         loginPage.verifyLoginSuccess();
     }
@@ -22,14 +29,24 @@ public class LoginTest extends BaseTest {
     @Test
     public void testLoginCRM_EmailInvalid() {
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin123@example.com", "123456");
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/testdata/LoginData.xlsx","sheet1");
+        loginPage.loginCRM(
+                excelHelper.getCellData("username",2),
+                excelHelper.getCellData("password",2)
+        );
         loginPage.verifyLoginFail();
     }
 
     @Test
     public void testLoginCRM_PasswordInvalid() {
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin@example.com", "1234567");
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/testdata/LoginData.xlsx","sheet1");
+        loginPage.loginCRM(
+                excelHelper.getCellData("username",3),
+                excelHelper.getCellData("password",3)
+        );
         loginPage.verifyLoginFail();
     }
 }
