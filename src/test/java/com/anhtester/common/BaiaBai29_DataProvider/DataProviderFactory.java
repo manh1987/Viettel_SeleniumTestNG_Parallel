@@ -32,5 +32,14 @@ public class DataProviderFactory {
         return data;
 
         };
+
+    @DataProvider(name = "dataLoginFromExcelMultiRow",parallel = true)
+    public Object [][] dataLoginFromExcelMultiRow(){
+        ExcelHelper excelHelper = new ExcelHelper();
+        Object [][] data = excelHelper.getDataHashTable("src/test/resources/testdata/LoginData.xlsx","LoginData",2,3);
+        System.out.println("Extract data from excel file:  "+data);
+        return data;
+
+    };
     }
 
