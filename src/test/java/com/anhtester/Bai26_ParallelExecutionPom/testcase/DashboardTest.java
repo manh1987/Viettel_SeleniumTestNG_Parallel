@@ -1,9 +1,9 @@
-package com.anhtester.common.Bai26_ParallelExecutionPom.testcase;
+package com.anhtester.Bai26_ParallelExecutionPom.testcase;
 
 
-import com.anhtester.common.Bai26_ParallelExecutionPom.pages.CustomerPage;
-import com.anhtester.common.Bai26_ParallelExecutionPom.pages.DashboardPage;
-import com.anhtester.common.Bai26_ParallelExecutionPom.pages.LoginPage;
+import com.anhtester.Bai26_ParallelExecutionPom.pages.CustomerPage;
+import com.anhtester.Bai26_ParallelExecutionPom.pages.DashboardPage;
+import com.anhtester.Bai26_ParallelExecutionPom.pages.LoginPage;
 import com.anhtester.common.BaseTest;
 import org.testng.annotations.Test;
 

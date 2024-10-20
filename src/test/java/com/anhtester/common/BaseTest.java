@@ -1,11 +1,13 @@
 package com.anhtester.common;
 
 import com.anhtester.drivers.DriverManager;
+import com.anhtester.helpers.CaptureHelper;
 import com.anhtester.helpers.PropertiesHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
@@ -50,7 +52,12 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void closeBrowser() {
+    public void closeBrowser(ITestResult iTestResult) {
+        //Chụp màn hình khi test case bị fail. Ngược lại ko chụp
+        if (ITestResult.FAILURE == iTestResult.getStatus()) {
+            CaptureHelper.takeScreenshot(iTestResult.getName());
+
+        }
         DriverManager.quit();
 
     }

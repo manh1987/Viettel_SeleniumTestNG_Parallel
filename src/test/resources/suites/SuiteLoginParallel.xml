@@ -6,7 +6,7 @@
         <parameter name="browser" value="chrome"></parameter>
 
         <classes>
-            <class name="com.anhtester.common.Bai26_ParallelExecutionPom.testcase.LoginTest">
+            <class name="com.anhtester.Bai26_ParallelExecutionPom.testcase.LoginTest">
                 <methods>
                     <include name="testLoginCRM_Success"/>
                 </methods>
@@ -18,7 +18,7 @@
         <parameter name="browser" value="firefox"></parameter>
 
         <classes>
-            <class name="com.anhtester.common.Bai26_ParallelExecutionPom.testcase.LoginTest">
+            <class name="com.anhtester.Bai26_ParallelExecutionPom.testcase.LoginTest">
                 <methods>
                     <include name="testLoginCRM_EmailInvalid"/>
                 </methods>
@@ -30,7 +30,7 @@
         <parameter name="browser" value="edge"></parameter>
 
         <classes>
-            <class name="com.anhtester.common.Bai26_ParallelExecutionPom.testcase.LoginTest">
+            <class name="com.anhtester.Bai26_ParallelExecutionPom.testcase.LoginTest">
                 <methods>
                     <include name="testLoginCRM_PasswordInvalid"/>
                 </methods>

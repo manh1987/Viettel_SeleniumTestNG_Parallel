@@ -1,4 +1,4 @@
-package com.anhtester.common.Bai27_ReadPropertiesFile;
+package com.anhtester.Bai27_ReadPropertiesFile;
 
 import com.anhtester.helpers.PropertiesHelper;
 import org.testng.annotations.Test;

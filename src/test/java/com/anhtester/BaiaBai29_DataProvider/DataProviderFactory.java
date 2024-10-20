@@ -1,4 +1,4 @@
-package com.anhtester.common.BaiaBai29_DataProvider;
+package com.anhtester.BaiaBai29_DataProvider;
 
 import com.anhtester.helpers.ExcelHelper;
 import org.testng.annotations.DataProvider;

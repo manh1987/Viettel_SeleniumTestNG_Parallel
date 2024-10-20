@@ -1,4 +1,4 @@
-package com.anhtester.common.Bai28_ReadExcelFile;
+package com.anhtester.Bai28_ReadExcelFile;
 
 import com.anhtester.helpers.ExcelHelper;
 import org.testng.annotations.Test;

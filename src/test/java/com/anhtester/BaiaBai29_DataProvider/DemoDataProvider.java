@@ -1,11 +1,9 @@
-package com.anhtester.common.BaiaBai29_DataProvider;
+package com.anhtester.BaiaBai29_DataProvider;
 
 import com.anhtester.keywords.WebUI;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Hashtable;
-import java.util.Objects;
 
 public class DemoDataProvider {
 

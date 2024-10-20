@@ -1,4 +1,4 @@
-package com.anhtester.common.Bai26_ParallelExecutionPom.pages;
+package com.anhtester.Bai26_ParallelExecutionPom.pages;
 
 import com.anhtester.keywords.WebUI;
 import org.testng.Assert;
