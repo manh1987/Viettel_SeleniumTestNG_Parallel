@@ -26,7 +26,7 @@ public class CaptureHelper {
         }
 //Lưu file ảnh với tên cụ thể vào đường dẫn
         try {
-            FileHandler.copy(source, new File(SystemHelper.getCurrentDir()+PropertiesHelper.getValue("SCREENSHOT_PATH")+screenshotName +"_"+ dateFormat.format(new Date()) +".png"));
+            FileHandler.copy(source, new File(SystemHelper.getCurrentDir()+PropertiesHelper.getValue("SCREENSHOT_PATH")+ screenshotName +"_"+ dateFormat.format(new Date()) +".png"));
             System.out.println("Take screenshot "+ screenshotName +" successfully");
         } catch (IOException e) {
             System.out.println("ERROR. Can not Take screenshot "+ screenshotName +".");
