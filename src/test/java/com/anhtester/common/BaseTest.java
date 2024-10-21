@@ -20,7 +20,7 @@ public class BaseTest {
 
     @BeforeMethod
     @Parameters({"browser"})
-    public void createBrowser(@Optional("chrome") String browserName) {
+    public void createBrowser(@Optional("chrome") String browser) {
         PropertiesHelper.loadAllFiles();
         WebDriver driver = setBrowser(PropertiesHelper.getValue("browser"));
 //        new WebUI(driver);
@@ -28,17 +28,17 @@ public class BaseTest {
     }
 
 
-    public WebDriver setBrowser(String browserName) {
+    public WebDriver setBrowser(String browser) {
         WebDriver driver = null;
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         //Khởi tạo Brower
-        if (browserName.trim().toLowerCase().equals("chrome")) {
+        if (browser.trim().toLowerCase().equals("chrome")) {
             driver = new ChromeDriver();
         }
-        if (browserName.trim().toLowerCase().equals("edge")) {
+        if (browser.trim().toLowerCase().equals("edge")) {
             driver = new EdgeDriver();
         }
-        if (browserName.trim().toLowerCase().equals("firefox")) {
+        if (browser.trim().toLowerCase().equals("firefox")) {
             driver = new FirefoxDriver();
             return driver;
         }
@@ -56,8 +56,9 @@ public class BaseTest {
         //Chụp màn hình khi test case bị fail. Ngược lại ko chụp
         if (ITestResult.FAILURE == iTestResult.getStatus()) {
             CaptureHelper.takeScreenshot(iTestResult.getName());
-
         }
+        ///Stop record video
+        CaptureHelper.stopRecord();
         DriverManager.quit();
 
     }
