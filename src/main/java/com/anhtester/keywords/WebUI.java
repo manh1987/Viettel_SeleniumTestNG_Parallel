@@ -1,6 +1,9 @@
 package com.anhtester.keywords;
 
 import com.anhtester.drivers.DriverManager;
+import com.anhtester.reports.ExtentTestManager;
+import com.anhtester.utils.LogUtils;
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -35,8 +38,8 @@ public class WebUI {
         }
     }
 
-    public static void logConsole(Object message) {
-        System.out.println(message);
+    public static void consoleLog(Object message) {
+        LogUtils.info(message);
     }
 
     public static WebElement getWebElement(By by) {
@@ -48,10 +51,10 @@ public class WebUI {
         List<WebElement> listElement = DriverManager.getDriver().findElements(by);
 
         if (listElement.size() > 0) {
-            System.out.println("checkElementExist: " + true + " --- " + by);
+            LogUtils.info("checkElementExist: " + true + " --- " + by);
             return true;
         } else {
-            System.out.println("checkElementExist: " + false + " --- " + by);
+            LogUtils.info("checkElementExist: " + false + " --- " + by);
             return false;
         }
     }
@@ -59,7 +62,8 @@ public class WebUI {
     public static void openURL(String url) {
         DriverManager.getDriver().get(url);
         sleep(STEP_TIME);
-        logConsole("Open: " + url);
+        LogUtils.info("Open: " + url);
+        ExtentTestManager.logMessage(Status.PASS, "Open URL: " + url);
     }
 
     public static void clickElement(String by) {
@@ -68,7 +72,8 @@ public class WebUI {
         waitForElementVisible(By.xpath(by));
         sleep(STEP_TIME);
         DriverManager.getDriver().findElement(By.xpath(by)).click();
-        logConsole("Click element: " + by);
+        LogUtils.info("Click element: " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Click element: " + by);
     }
 
     public static void setText(String by, String value) {
@@ -77,21 +82,24 @@ public class WebUI {
         waitForElementVisible(By.xpath(by));
         sleep(STEP_TIME);
         DriverManager.getDriver().findElement(By.xpath(by)).sendKeys(value);
-        logConsole("Set text: " + value + " on element " + by);
+        LogUtils.info("Set text: " + value + " on element " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Set text " + value + " on element " + by);
     }
 
     public static void setTextAndKey(By by, String value, Keys key) {
 //        waitForPageLoaded();
         waitForElementVisible(by);
         getWebElement(by).sendKeys(value, key);
-        System.out.println("Set text: " + value + " on element " + by);
+        LogUtils.info("Set text: " + value + " on element " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Set text " + value + " on element " + by);
     }
 
     public static void setKey(By by, Keys key) {
 //        waitForPageLoaded();
         waitForElementVisible(by);
         getWebElement(by).sendKeys(key);
-        System.out.println("Set key: " + key.name() + " on element ");
+        LogUtils.info("Set key: " + key.name() + " on element ");
+        ExtentTestManager.logMessage(Status.PASS, "Set text " + key.name() + " on element " + by);
     }
 
     public static void clickElement(By by) {
@@ -101,35 +109,41 @@ public class WebUI {
         waitForElementClickable(by);
         sleep(STEP_TIME);
         DriverManager.getDriver().findElement(by).click();
-        logConsole("Click element: " + by);
+        LogUtils.info("Click element: " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Click element: " + by);
     }
 
     public static void clickElement(By by, int timeout) {
         waitForElementClickable(by, timeout);
         sleep(STEP_TIME);
         DriverManager.getDriver().findElement(by).click();
-        logConsole("Click element: " + by);
+        LogUtils.info("Click element: " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Click element: " + by);
     }
 
     public static void setText(By by, String value, int timeout) {
         waitForElementVisible(by, timeout);
         sleep(STEP_TIME);
         DriverManager.getDriver().findElement(by).sendKeys(value);
-        logConsole("Set text: " + value + " on element " + by);
+        LogUtils.info("Set text: " + value + " on element " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Set text " + value + " on element " + by);
     }
 
     public static void setText(By by, String value) {
         waitForElementVisible(by);
         sleep(STEP_TIME);
         DriverManager.getDriver().findElement(by).sendKeys(value);
-        logConsole("Set text: " + value + " on element " + by);
+        LogUtils.info("Set text: " + value + " on element " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Set text " + value + " on element " + by);
     }
 
     public static String getElementText(By by) {
         waitForElementVisible(by);
         sleep(STEP_TIME);
         String text = DriverManager.getDriver().findElement(by).getText();
-        logConsole("Get text: " + text);
+        LogUtils.info("Get text: " + text);
+        ExtentTestManager.logMessage(Status.PASS, "Get text of element " + by);
+        ExtentTestManager.logMessage(Status.INFO, "==> Text: " + getWebElement(by).getText());
         return text; //Trả về một giá trị kiểu String
     }
 
@@ -137,7 +151,9 @@ public class WebUI {
         waitForElementVisible(by);
         sleep(STEP_TIME);
         String text = DriverManager.getDriver().findElement(by).getAttribute(attribute);
-        logConsole("Get text: " + text);
+        LogUtils.info("Get text: " + text);
+        ExtentTestManager.logMessage(Status.PASS, "Get attribute value of element " + by);
+        ExtentTestManager.logMessage(Status.INFO, "==> Attribute value: " + getWebElement(by).getAttribute(attribute));
         return text; //Trả về một giá trị kiểu String
     }
 
@@ -147,8 +163,9 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         } catch (Throwable error) {
+            LogUtils.error("Timeout waiting for the element Visible. " + by.toString());
             Assert.fail("Timeout waiting for the element Visible. " + by.toString());
-            logConsole("Timeout waiting for the element Visible. " + by.toString());
+
         }
     }
 
@@ -157,8 +174,9 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         } catch (Throwable error) {
+            LogUtils.error("Timeout waiting for the element Visible. " + by.toString());
             Assert.fail("Timeout waiting for the element Visible. " + by.toString());
-            logConsole("Timeout waiting for the element Visible. " + by.toString());
+
         }
     }
 
@@ -167,8 +185,9 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.presenceOfElementLocated(by));
         } catch (Throwable error) {
+            LogUtils.error("Element not exist. " + by.toString());
             Assert.fail("Element not exist. " + by.toString());
-            logConsole("Element not exist. " + by.toString());
+
         }
     }
 
@@ -177,8 +196,9 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.presenceOfElementLocated(by));
         } catch (Throwable error) {
+            LogUtils.error("Element not exist. " + by.toString());
             Assert.fail("Element not exist. " + by.toString());
-            logConsole("Element not exist. " + by.toString());
+
         }
     }
 
@@ -187,8 +207,9 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.elementToBeClickable(getWebElement(by)));
         } catch (Throwable error) {
+            LogUtils.error("Timeout waiting for the element ready to click. " + by.toString());
             Assert.fail("Timeout waiting for the element ready to click. " + by.toString());
-            logConsole("Timeout waiting for the element ready to click. " + by.toString());
+
         }
     }
 
@@ -197,8 +218,9 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.elementToBeClickable(getWebElement(by)));
         } catch (Throwable error) {
+            LogUtils.error("Timeout waiting for the element ready to click. " + by.toString());
             Assert.fail("Timeout waiting for the element ready to click. " + by.toString());
-            logConsole("Timeout waiting for the element ready to click. " + by.toString());
+
         }
     }
 
@@ -218,12 +240,12 @@ public class WebUI {
 
         //Wait Javascript until it is Ready!
         if (!jsReady) {
-            logConsole("Javascript in NOT Ready!");
+            LogUtils.info("Javascript in NOT Ready!");
             //Wait for Javascript to load
             try {
                 wait.until(jsLoad);
             } catch (Throwable error) {
-                error.printStackTrace();
+                LogUtils.error(error.getStackTrace());
                 Assert.fail("Timeout waiting for page load (Javascript). (" + PAGE_LOAD_TIMEOUT + "s)");
             }
         }
@@ -248,7 +270,7 @@ public class WebUI {
 
         //Wait JQuery until it is Ready!
         if (!jqueryReady) {
-            logConsole("JQuery is NOT Ready!");
+            LogUtils.info("JQuery is NOT Ready!");
             try {
                 //Wait for jQuery to load
                 wait.until(jQueryLoad);
@@ -280,7 +302,7 @@ public class WebUI {
 
         //Wait ANGULAR until it is Ready!
         if (!angularReady) {
-            logConsole("Angular is NOT Ready!");
+            LogUtils.info("Angular is NOT Ready!");
             //Wait for Angular to load
             try {
                 //Wait for jQuery to load

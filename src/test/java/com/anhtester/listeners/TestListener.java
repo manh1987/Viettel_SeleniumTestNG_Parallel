@@ -2,53 +2,78 @@ package com.anhtester.listeners;
 
 import com.anhtester.helpers.CaptureHelper;
 import com.anhtester.helpers.PropertiesHelper;
+import com.anhtester.reports.ExtentReportManager;
+import com.anhtester.reports.ExtentTestManager;
+import com.anhtester.utils.LogUtils;
+import com.aventstack.extentreports.Status;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 public class TestListener implements ITestListener {
+
+    public String getTestName(ITestResult result) {
+        return result.getTestName() != null ? result.getTestName() : result.getMethod().getConstructorOrMethod().getName();
+    }
+
+    public String getTestDescription(ITestResult result) {
+        return result.getMethod().getDescription() != null ? result.getMethod().getDescription() : getTestName(result);
+    }
+
     @Override
-    public void onStart(ITestContext arg0) {
+    public void onStart(ITestContext result) {
         // TODO Auto-generated method stub
-        System.out.println("onStart: "+ arg0.getName());
+        LogUtils.info("onStart: "+ result.getName());
         PropertiesHelper.loadAllFiles();
-        CaptureHelper.startRecord(arg0.getName());
+        CaptureHelper.startRecord(result.getName());
     }
 
     @Override
-    public void onFinish(ITestContext arg0) {
+    public void onFinish(ITestContext result) {
         // TODO Auto-generated method stub
-        System.out.println("onFinish: "+ arg0.getName());
+        LogUtils.info("onFinish: "+ result.getName());
+        //Kết thúc và thực thi Extents Report
+        ExtentReportManager.getExtentReports().flush();
     }
 
     @Override
-    public void onTestStart(ITestResult arg0) {
+    public void onTestStart(ITestResult result) {
         // TODO Auto-generated method stub
-        System.out.println("onTestStart: "+ arg0.getName());
+        LogUtils.info("onTestStart: "+ result.getName());
+        //Bắt đầu ghi 1 TCs mới vào Extent Report
+        ExtentTestManager.saveToReport(getTestName(result), getTestDescription(result));
     }
 
     @Override
-    public void onTestSuccess(ITestResult arg0) {
+    public void onTestSuccess(ITestResult result) {
         // TODO Auto-generated method stub
-        System.out.println("onTestSuccess: "+ arg0.getName());
-        CaptureHelper.takeScreenshot(arg0.getName());
+        LogUtils.info("onTestSuccess: "+ result.getName());
+        CaptureHelper.takeScreenshot(result.getName());
         CaptureHelper.stopRecord();
+        //Extent Report
+        ExtentTestManager.logMessage(Status.PASS, result.getName() + " is passed.");
     }
 
     @Override
-    public void onTestFailure(ITestResult arg0) {
+    public void onTestFailure(ITestResult result) {
         // TODO Auto-generated method stub
-        System.out.println("onTestFailure: "+ arg0.getName());
-        CaptureHelper.takeScreenshot(arg0.getName());
+        LogUtils.error("onTestFailure: " + result.getName());
+        CaptureHelper.takeScreenshot(result.getName());
         //Làm gì đó khi testcase fail
         CaptureHelper.stopRecord();
+        //Extent Report
+        ExtentTestManager.addScreenshot(result.getName());
+        ExtentTestManager.logMessage(Status.FAIL, result.getThrowable().toString());
+        ExtentTestManager.logMessage(Status.FAIL, result.getName() + " is failed.");
     }
 
     @Override
-    public void onTestSkipped(ITestResult arg0) {
+    public void onTestSkipped(ITestResult result) {
         // TODO Auto-generated method stub
-        System.out.println("onTestSkipped: "+ arg0.getName());
-        CaptureHelper.takeScreenshot(arg0.getName());
+        LogUtils.warn("onTestSkipped: "+ result.getName());
+        CaptureHelper.takeScreenshot(result.getName());
         CaptureHelper.stopRecord();
+        //Extent Report
+        ExtentTestManager.logMessage(Status.SKIP, result.getThrowable().toString());
     }
 }

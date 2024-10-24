@@ -2,6 +2,7 @@ package com.anhtester.Bai31_TestListener.pages;
 
 import com.anhtester.drivers.DriverManager;
 import com.anhtester.keywords.WebUI;
+import com.anhtester.utils.LogUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
@@ -23,11 +24,12 @@ public class LoginPage {
     private void setInputEmail(String email) {
 
         WebUI.setText(inputEmail, email);
+        LogUtils.info("Set email value: " + email);
     }
 
     private void setInputPassword(String password) {
         WebUI.setText(inputPassword, password);
-        System.out.println("Set email value: " + password);
+        LogUtils.info("Set password value: " + password);
     }
 
     private void clickButtonLogin() {
@@ -39,7 +41,7 @@ public class LoginPage {
 
         WebUI.openURL(url);
         WebUI.waitForPageLoaded();
-        System.out.println("Navigate to URL" + url);
+        LogUtils.info("Navigate to URL" + url);
         setInputEmail(email);
         setInputPassword(password);
         clickButtonLogin();
@@ -48,18 +50,18 @@ public class LoginPage {
     }
 
     public void verifyLoginSuccess() {
-
+        LogUtils.info("Verify login success");
         Assert.assertTrue(DriverManager.getDriver().findElement((menuDashboard)).isDisplayed(), "Menu Dashboard not displayed");
     }
 
     public void verifyLoginFail() {
-        System.out.println("Verify login fail");
+        LogUtils.error("Verify login fail");
         Assert.assertTrue(DriverManager.getDriver().findElement(errorMessage).isDisplayed(), "Error Message not display.");
         Assert.assertEquals(WebUI.getElementText(errorMessage), "Invalid email or password", "Content of Error Message not matc.");
     }
 
     public void verifyRedirectLoginPage() {
-        System.out.println("Verify to redirect Login Page");
+        LogUtils.info("Verify to redirect Login Page");
         Assert.assertTrue(DriverManager.getDriver().findElement(headerLoginPage).isDisplayed(), "Header page not displayed.");
         Assert.assertEquals(WebUI.getElementText(headerLoginPage), "Login", "Content of header Login page not match.");
     }

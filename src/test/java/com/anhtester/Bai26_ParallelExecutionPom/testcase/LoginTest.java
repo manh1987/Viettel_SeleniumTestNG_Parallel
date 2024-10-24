@@ -22,7 +22,6 @@ public class LoginTest extends BaseTest {
                 excelHelper.getCellData("username",1),
                 excelHelper.getCellData("password",1)
         );
-
         loginPage.verifyLoginSuccess();
     }
 
@@ -49,4 +48,7 @@ public class LoginTest extends BaseTest {
         );
         loginPage.verifyLoginFail();
     }
+
+
+
 }
